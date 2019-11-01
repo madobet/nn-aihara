@@ -1,0 +1,9 @@
+@startuml
+' User order 0
+' entity OS order 1
+participant shell as "Shell" order 2 #white
+'默认 order 0
+participant toolkit as "Neuron Network Toolkit" order 3 #aqua
+
+/'-> 实线 --> 虚线'/
+@enduml

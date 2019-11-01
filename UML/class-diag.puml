@@ -1,0 +1,95 @@
+@startuml
+
+namespace ntoolkit #DDDDDD {
+  namespace io {
+  }
+  package neuron.h <<Rectangle>> #White {
+    abstract class neuron as "Neuron" {
+      +paras_name_list : const std.vector<const std.string>
+      #spike : double
+      #parameters : std.map<std.string, double>
+      -- 构造析构 --
+      #Neuron()
+      #Neuron(subclass_para_list : const std.vector<const std.string>&, para_inputs : std.initializer_list<double>)
+      +~Neuron()
+      .. 测量读取 ..
+      +Measure() : double
+      +ValueOfParameter(para_name : const std.string&) : double
+      .. 更新(纯虚) ..
+      {abstract} +Refresh(input : std.initializer_list<double>) : void
+      .. 打印用法 用于交互和 GUI ..
+      +PrintUsage() : std.string
+      +PrintParaList() : std.string
+    }
+    note right of neuron
+      Neuron 是虚基类,不可直接使用
+    endnote
+
+
+    class aihara as "Aihara" {
+      -eta_i : double
+      -zeta_i : double
+      -stat_inter : double
+      --- 构造析构（默认构造函数为私有） ---
+      -Aihara()
+      +Aihara(paras_und_init : std.initializer_list<double>)
+      +Aihara(src : const Aihara&)
+      ... ...
+      +MeasureIn() : double
+      +Refresh(input : std.initializer_list<double>) : void
+      ... 运算符 ...
+      +\=(src : const Aihara&) : ntoolkit.Aihara &
+      +*(dev : double) : ntoolkit.Aihara &
+    }
+    note right of aihara
+      Introduction to Aihara neuron network
+    endnote
+
+
+    class hh as "Hodgkin_huxley" {
+      {static} -C_m : const double = 1
+      {static} -g_Na_coff : const double = 120
+      {static} -g_K_coff : const double = 36
+      {static} -g_L : const double = 0.3
+      {static} -E_rest : const double = -60
+      {static} -rho_Na : const double = 60
+      {static} -rho_K : const double = 18
+      -E_Na : double
+    }
+    note top of hh
+      Introduction to Hudgkin-Huxley equations
+    endnote
+
+
+    class fhn as "Fizhugh_nagumo" {
+
+    }
+    note left of fhn
+    endnote
+
+
+    class fhn2 as "Fizhugh_nagumo2" {
+
+    }
+    note left of fhn2
+    endnote
+
+    class un as "Unknown" {
+
+    }
+
+
+    note left of un
+      On last defined class
+    endnote
+    aihara --^ neuron
+    hh --|> neuron
+    fhn --^ neuron
+    neuron ^-- fhn2
+    neuron <|-- un
+  }
+
+}
+
+
+@enduml
